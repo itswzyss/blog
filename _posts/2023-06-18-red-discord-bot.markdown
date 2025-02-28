@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Hosting Red on Ubuntu using Docker"
+title:  "Hosting Red-DiscordBot on Ubuntu using Docker"
 date:   2023-06-18 20:40:00
 categories: [Tutorials, Linux]
 image: /assets/img/2023-06-18-red-discord-bot/red.png
@@ -26,13 +26,13 @@ Here's why this Docker image stands out from the crowd:
 
 ## Let's Get Started
 Before you can host a Red bot, make sure you have the following:
-- A server to host the bot (any host with a decent internet connection will do, and if you're looking for a personal recommendation, I typically use <a href="https://aws.amazon.com/lightsail/" target="_blank">AWS Lightsail</a>).
+- A server to host the bot (any host with a decent internet connection will do, and if you're looking for a personal recommendation, I recommend <a href="https://hetzner.cloud/?ref=rTZSJZEqOma0" target="_blank">Hetzner</a>).
 - A Discord Bot Token obtained by creating an Application on the <a href="https://discord.com/developers" target="_blank">Discord Developer Portal</a>.
 
-> If you're a new Lightsail customer, you can get the $10 tier free for three months!
+> If you use my referral link above, you can get €20 in free credits!
 {: .prompt-tip }
 
-## Obtaining a Bot Token
+## Bot Configuration
 To get started, follow these simple steps to obtain your Discord Bot Token:
 
 1. Head over to the <a href="https://discord.com/developers/applications" target="_blank">Discord Developer Portal</a>.
@@ -43,9 +43,12 @@ To get started, follow these simple steps to obtain your Discord Bot Token:
  - Under Token, click Reset Token — this is the only chance to obtain your token.
  - Save the token as you won't be able to retrieve it later from this page.
  - Scroll down and ensure that Presence Intent, Server Members Intent, and Message Content Intent are all enabled.
+ 
+ > It is important that the above intents are enabled properly, otherwise the bot will not work.
+{: .prompt-warning }
 
 ## Deploying Red with Docker
-To quickly deploy Red using Docker, use the following command:
+Now we can move on to deploying the bot. To quickly get started Docker, use the following command:
 
 ```bash
 docker run -v /local_folder_for_persistence:/data -e TOKEN=bot_token -e PREFIX=. phasecorex/red-discordbot
@@ -88,7 +91,48 @@ docker run -v /local_folder_for_persistence:/data -d --name Friendly_Name --rest
 
 Now you can use the Friendly_Name with any Docker command instead of needing to obtain the container ID, making management easier.
 
+## Deploying Red with Docker Compose
+Personally, I use Docker Compose. You may or may not have this installed depending on how you installed Docker. If you'd like to take a look at the official instructions, see <a href="https://github.com/PhasecoreX/docker-red-discordbot?tab=readme-ov-file#docker-compose" target="_blank">here</a>.
+
+1. Create a directory to contain the bot data and the `compose.yml` file and enter it.
+    ```bash
+    mkdir red-discord-bot && cd red-discord-bot
+    ```
+
+2. Create the `compose.yml` file
+    ```bash
+    nano compose.yml
+    ```
+3. Paste the following contents
+    ```
+    services:
+      redbot:
+        container_name: redbot
+        image: phasecorex/red-discordbot
+        restart: unless-stopped
+        volumes:
+          - ./redbot:/data
+        environment:
+          - TOKEN=your_bot_token_goes_here
+          - PREFIX=.
+          - TZ=America/Detroit
+          - PUID=1000
+    ```
+    {: file='compose.yml'}
+Be sure to update the environment details such as `TOKEN`, `PREFIX` AND `TZ`. For more environemnt variables, see <a href="https://github.com/PhasecoreX/docker-red-discordbot?tab=readme-ov-file#extra-arguments" target="_blank">here</a>.
+
+4. Save and close the file.
+5. Launch the Docker container.
+    ```bash
+    docker compose up -d
+    ```
+
+Your bot should be up and running! If you need to check logs or get the invite link, use the following:
+```bash
+docker compose logs -f
+```
+
 ## Conclusion
-By following the steps outlined above, you now have a running instance of Red-DiscordBot! To obtain the Invite link and invite the bot to your server, you may need to view the logs.
+By following the steps outlined above, you should now have a running instance of Red-DiscordBot! To obtain the Invite link and invite the bot to your server, you may need to view the logs.
 
 Remember to refer to the GitHub page for the Docker image to access additional information that wasn't covered here. Enjoy your Red-DiscordBot journey!

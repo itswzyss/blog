@@ -19,7 +19,7 @@ To begin with, let's talk about the hassle of discriminators, the four-digit num
 
 ## Username Restrictions
 
-Let's address the headache of searching for usernames with special unicode text. In the past, if you needed to find a user with a name containing those special unicode characters, it meant copying and pasting their username. If you were unable to copy and paste, good luck. I've personally ran ito many such cases where I had to have someone add me because they had random symbols in their name. With the new username system, you are limited to creating usernames with standard letters, numbers, underscores and periods. None of that other mumbo jumbo.
+Let's address the headache of searching for usernames with special unicode text. In the past, if you needed to find a user with a name containing those special unicode characters, it meant copying and pasting their username. If you were unable to copy and paste, good luck. I've personally ran into many such cases where I had to have someone add me because they had random symbols in their name. With the new username system, you are limited to creating usernames with standard letters, numbers, underscores and periods. None of that other mumbo jumbo.
 
 ## Conclusion
 
